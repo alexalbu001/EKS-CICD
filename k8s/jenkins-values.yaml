@@ -1,0 +1,8 @@
+#file to customize jenkins deployment
+#helm install jenkins jenkinsci/jenkins -f jenkins-values.yaml --namespace jenkins --create-namespace
+controller:
+  adminPassword: 'admin' # Replace with a strong password
+  serviceType: NodePort
+  nodePort: 32000 # Only needed if you want to specify the NodePort to access Jenkins
+persistence:
+  size: 4Gi # Adjust the size as needed
