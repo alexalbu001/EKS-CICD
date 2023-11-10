@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+  label 'jenkins/docker-builder'
+    }
     environment {
         DOCKER_IMAGE = "zoeycide/flask-hello-world"
         DOCKER_TAG = "latest"
