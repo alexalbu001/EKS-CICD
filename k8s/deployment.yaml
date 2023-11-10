@@ -15,5 +15,8 @@ spec:                            # The specification of the deployment
       containers:                # The list of containers to run within the pod
       - name: flask-hello-world  # The name of the container (for reference within Kubernetes)
         image: zoeycide/flask-hello-world:latest  # The image to use for the container
+        imagePullPolicy: Always
         ports:                   # The ports that the container will listen on
         - containerPort: 5000    # The port the container is configured to listen to
+      imagePullSecrets:
+      - name: regcred

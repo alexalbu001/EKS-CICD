@@ -1,0 +1,10 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: EKS-Cluster
+  region: eu-central-1
+managedNodeGroups:
+- name: my-mng-nodes
+  launchTemplate:
+    id: lt-07945235b47e4b46c
+    version: "2"

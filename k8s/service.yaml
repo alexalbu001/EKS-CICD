@@ -1,3 +1,4 @@
+#service for internal communication
 apiVersion: v1                   # The API version for the service
 kind: Service                    # The type of the resource to create
 metadata:
