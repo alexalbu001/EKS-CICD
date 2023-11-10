@@ -1,5 +1,5 @@
 pipeline {
-    agent
+    agent any
     environment {
         DOCKER_IMAGE = "zoeycide/flask-hello-world"
         DOCKER_TAG = "latest"
