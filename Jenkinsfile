@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                        // Now KUBECONFIG environment variable will point to the loaded kubeconfig file
+                        // KUBECONFIG environment variable points to the loaded kubeconfig file
                         sh "kubectl set image deployment/flask-hello-world-deployment flask-hello-world=${DOCKER_IMAGE}:${DOCKER_TAG} --record"
                     }
                 }
@@ -33,7 +33,10 @@ pipeline {
     }
     post {
         success {
-            // Add post-build actions here if needed
+            echo 'Build succeeded!'
+        }
+        failure {
+            echo 'Build failed!'
         }
     }
 }
