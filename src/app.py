@@ -1,5 +1,6 @@
 from flask import Flask, send_from_directory
 
+#route of static
 app = Flask(__name__, static_folder='src/static')
 
 @app.route('/')
