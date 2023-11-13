@@ -25,7 +25,7 @@ pipeline {
                 script {
                     withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
                         // KUBECONFIG environment variable points to the loaded kubeconfig file
-                        sh "kubectl set image deployment/flask-hello-world-deployment flask-hello-world=${DOCKER_IMAGE}:${DOCKER_TAG} --record"
+                        sh "kubectl set image deployment/flask-hello-world-deployment flask-hello-world=${DOCKER_IMAGE}:${DOCKER_TAG} --namespace myapp"
                     }
                 }
             }
