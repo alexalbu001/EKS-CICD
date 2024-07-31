@@ -1,0 +1,48 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build -f Dockerfile -t test .
+
+    - name: Trivy vulnerability scanner
+            uses: aquasecurity/trivy-action@master
+            with:
+              image-ref: test
+              format: 'table'
+              output: trivy.json
+              ignore-unfixed: false
+              vuln-type: 'os,library'
+              severity: 'CRITICAL,HIGH'
+
+    - name: Send Trivy Results to Datadog
+        if: always()
+        env:
+          DD_API_KEY: ${{ secrets.DD_API_KEY }}
+        run: |
+          echo "Sending Trivy results to Datadog..."
+          if [[ -z "$DD_API_KEY" ]]; then
+            echo "Error: DD_API_KEY is not set" >&2
+            exit 1
+          fi
+          if [[ -s trivy.json ]]; then
+            curl -X POST -H "Content-type: application/json" \
+            -H "DD-API-KEY: ${DD_API_KEY}" \
+            -d @trivy.json \
+            "https://http-intake.logs.datadoghq.com/v1/input"
+          else
+            echo "Error: trivy.json not found or empty" >&2
+            exit 1
+          fi
